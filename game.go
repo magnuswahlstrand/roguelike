@@ -2,15 +2,24 @@ package main
 
 import (
 	"github.com/gdamore/tcell"
-	"github.com/peterhellberg/gfx"
+	"github.com/kyeett/collections/grid"
+	"github.com/kyeett/roguelike/tile"
 	"image"
 	"log"
 )
 
 type Game struct {
 	tcell.Screen
-	player *Player
+	player   *Player
+	entities []*Entity
+
+	*grid.Grid
 }
+
+const (
+	mapWidth  = 60
+	mapHeight = 40
+)
 
 func newGame() *Game {
 	s, err := tcell.NewScreen()
@@ -26,53 +35,25 @@ func newGame() *Game {
 		Foreground(tcell.ColorGhostWhite).
 		Background(tcell.ColorPurple))
 
-	pos := image.Pt(1, 1)
+	pos := image.Pt(mapWidth/2, mapHeight/2)
 	p := newPlayer(pos)
 
-	return &Game{s, p}
+	entities := []*Entity{
+		p.Entity,
+	}
+
+	gr := grid.New(mapWidth, mapHeight)
+	t := tile.Tile{true, true}
+	gr.Set(image.Pt(30, 22), t)
+	gr.Set(image.Pt(31, 22), t)
+	gr.Set(image.Pt(32, 22), t)
+
+	return &Game{s, p, entities, gr}
 }
 
 type Move struct {
 	dx, dy int
 }
 
-type Exit struct {}
+type Exit struct{}
 
-func (g *Game) handleEvent() interface{} {
-	ev := g.PollEvent()
-
-	switch ev := ev.(type) {
-	case *tcell.EventKey:
-		switch ev.Key() {
-		case tcell.KeyUp:
-			return Move{0, -1}
-		case tcell.KeyDown:
-			return Move{0, 1}
-		case tcell.KeyLeft:
-			return Move{-1, 0}
-		case tcell.KeyRight:
-			return Move{1, 0}
-		case tcell.KeyEscape, tcell.KeyEnter:
-			return Exit{}
-		}
-	}
-	return nil
-}
-
-func (g *Game) update() error {
-	action := g.handleEvent()
-	switch v := action.(type) {
-	case Move:
-		g.player.Move(v.dx, v.dy)
-	case Exit:
-		return gfx.ErrDone
-	}
-
-	return nil
-}
-
-func (g *Game) draw() {
-	g.Clear()
-	g.SetCell(g.player.X, g.player.Y, tcell.StyleDefault, g.player.char)
-	g.Screen.Sync()
-}
