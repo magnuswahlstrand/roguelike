@@ -25,7 +25,7 @@ func newPlayer(pos image.Point) *Player {
 	p := &Player{
 		Entity: &Entity{
 			Point: pos,
-			Color: colornames.Darkred,
+			Color: colornames.White,
 			char:  '@',
 		},
 	}

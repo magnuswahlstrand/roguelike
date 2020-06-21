@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gdamore/tcell"
+	"github.com/kyeett/roguelike/tile"
 	"image"
 )
 
@@ -17,9 +18,8 @@ func (g *Game) draw() {
 	for y := 0; y < mapHeight; y++ {
 		for x := 0; x < mapWidth; x++ {
 
-			tile := g.Grid.Get(image.Pt(x, y))
-			isWall := tile != nil
-			if isWall {
+			t := g.Grid.Get(image.Pt(x, y)).(*tile.Tile)
+			if t.Blocked {
 				g.SetCell(x, y, darkWall, ' ')
 			} else {
 				g.SetCell(x, y, darkGround, ' ')
@@ -28,7 +28,8 @@ func (g *Game) draw() {
 	}
 	// Draw all entities in the list
 	for _, e := range g.entities {
-		g.SetCell(e.X, e.Y, tcell.StyleDefault, e.char)
+		re, gr, bl, _ := e.Color.RGBA()
+		g.SetCell(e.X, e.Y, tcell.StyleDefault.Foreground(tcell.NewRGBColor(int32(re), int32(gr), int32(bl))), e.char)
 	}
 	g.Show()
 

@@ -6,7 +6,7 @@ Participating in the 4th anual code-along series of roguelikes on [/r/rogueliked
 
 * [Part 1](http://rogueliketutorials.com/tutorials/tcod/v2/part-1/) - ~~Drawing the ‘@’ symbol and moving it around~~
 * [Part 2](http://rogueliketutorials.com/tutorials/tcod/part-2/) - ~~The generic Entity, the render functions, and the map~~
-* Part 3 - Generating a dungeon
+* [Part 3](http://rogueliketutorials.com/tutorials/tcod/part-3/) - ~~Generating a dungeon~~
 * Part 4 - Field of view
 * Part 5 - Placing enemies and kicking them (harmlessly)
 * Part 6 - Doing (and taking) some damage
@@ -19,6 +19,11 @@ Participating in the 4th anual code-along series of roguelikes on [/r/rogueliked
 * Part 13 - Gearing up
 
 ## Screenshot
+
+### Part-3
+![part3](screenshots/part-3.png)
+
+Generating a dungeon
 
 ### Part-2
 ![part2](screenshots/part-2.png)

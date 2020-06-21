@@ -32,7 +32,7 @@ func (g *Game) isBlocked(x int, y int) bool {
 	t := g.Grid.Get(image.Pt(x, y))
 
 	switch v := t.(type) {
-	case tile.Tile:
+	case *tile.Tile:
 		return v.Blocked
 	}
 
